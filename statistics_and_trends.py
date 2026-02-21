@@ -7,6 +7,8 @@ You should NOT change any function, file or variable names,
 Make use of the functions presented in the lectures
 and ensure your code is PEP-8 compliant, including docstrings.
 """
+
+
 from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
@@ -22,13 +24,28 @@ def plot_relational_plot(df):
 
 
 def plot_categorical_plot(df):
-    fig, ax = plt.subplots()
-    plt.savefig('categorical_plot.png')
-    return
 
+ 
+    """
+    plotting pie chart of pizza category
+    by the total price
+    """
+    dfgrp_pizza = df.groupby('pizza_category.)['total_price'].sum()
+
+    fig, ax = plt.subplots()
+    dfgrp_pizza.plot(kind = 'pie', y = 'total_price', style={'dpi':144}, legend = False autopct = '%1.1f%%')
+    plt.title('Pizza Category')                  
+    plt.savefig('categorical_plot.png')                 
+    return
+                     
 
 def plot_statistical_plot(df):
+    """
+    plotting box plot for the unit_price, total_price and quantity
+    """
+ 
     fig, ax = plt.subplots()
+               
     plt.savefig('statistical_plot.png')
     return
 
@@ -62,7 +79,7 @@ def writing(moments, col):
 def main():
     df = pd.read_csv('data.csv')
     df = preprocessing(df)
-    col = '<your chosen column for analysis>'
+    col = df[[col for col in df.columns if 'price' in col or 'quantity' in col]].copy()'<your chosen column for analysis>'
     plot_relational_plot(df)
     plot_statistical_plot(df)
     plot_categorical_plot(df)
